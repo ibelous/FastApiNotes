@@ -1,10 +1,8 @@
-from typing import List
-
 from fastapi import APIRouter
 from fastapi.responses import Response
 
-from app.config import Note, Board
-from app.models.schemas import NoteSchema, NoteUpdateSchema, NoteResponseSchema
+from app.config import Note
+from app.models.schemas import NoteResponseSchema, NoteSchema, NoteUpdateSchema
 
 router = APIRouter()
 
@@ -16,7 +14,7 @@ async def create_note(board_id: int, note: NoteSchema):
     return await Note(**note_dict).save()
 
 
-@router.get("/", status_code=200, response_model=List[NoteResponseSchema])
+@router.get("/", status_code=200, response_model=list[NoteResponseSchema])
 async def list_notes(board_id: int):
     return await Note.objects.filter(board__id=board_id).all()
 
@@ -24,7 +22,7 @@ async def list_notes(board_id: int):
 @router.get("/{id}/", status_code=200, response_model=NoteResponseSchema)
 async def get_note(board_id: int, id: int):
     if note := await Note.objects.get_or_none(board__id=board_id, id=id):
-        return await note.update(views_count=note.views_count+1)
+        return await note.update(views_count=note.views_count + 1)
     return Response("Not found.", status_code=404)
 
 

@@ -2,14 +2,14 @@ import datetime
 import os
 
 import ormar
-from sqlalchemy import create_engine, MetaData
-from dotenv import load_dotenv
 from databases import Database
+from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
+from sqlalchemy import MetaData, create_engine
 
 
 class Settings(BaseSettings):
-    db_url: str = Field(..., env='DATABASE_URL')
+    db_url: str = Field(..., env="DATABASE_URL")
 
 
 load_dotenv()

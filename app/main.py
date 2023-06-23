@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.api import notes, boards
+from app.api import boards
 from app.config import database
 
 app = FastAPI()
@@ -15,6 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup():
     if not database.is_connected:
@@ -25,5 +26,6 @@ async def startup():
 async def shutdown():
     if database.is_connected:
         await database.disconnect()
+
 
 app.include_router(boards.router, prefix="/boards", tags=["boards"])

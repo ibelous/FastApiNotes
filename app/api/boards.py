@@ -1,10 +1,8 @@
-import json
-
 from fastapi import APIRouter
 from fastapi.responses import Response
 
 from app.api import notes
-from app.config import database, Note, Board
+from app.config import Board, Note
 from app.models.schemas import BoardSchema
 
 router = APIRouter()
