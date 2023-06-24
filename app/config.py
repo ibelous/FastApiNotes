@@ -15,8 +15,8 @@ class Settings(BaseSettings):
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://backend:backend@db:5432/backend")
+DATABASE_PATH = DATABASE_URL.replace("postgresql://", "")
 
-engine = create_engine(DATABASE_URL)
 metadata = MetaData()
 
 
@@ -56,6 +56,3 @@ async def before_update(sender, instance, **kwargs):
     if sender == Note and "passed_args" in kwargs and "views_count" in kwargs["passed_args"]:
         return
     instance.modified_at = datetime.datetime.now()
-
-
-metadata.create_all(engine)
