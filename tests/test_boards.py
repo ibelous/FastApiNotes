@@ -6,9 +6,7 @@ from tests.factories.boards import BoardFactory
 
 @pytest.mark.asyncio()
 async def test_create_board(async_client):
-    payload = {
-        "title": "example"
-    }
+    payload = {"title": "example"}
     response = await async_client.post("api/boards/", json=payload)
     assert response.status_code == 201
     assert await Board.objects.count() == 1
@@ -21,6 +19,7 @@ async def test_get_board(async_client):
     response = await async_client.get(f"/api/boards/{board.id}/")
     assert response.status_code == 200
 
+
 @pytest.mark.asyncio()
 async def test_get_boards_list(async_client):
     boards = BoardFactory.create_batch(5)
@@ -29,6 +28,7 @@ async def test_get_boards_list(async_client):
     response = await async_client.get("/api/boards/")
     assert response.status_code == 200
     assert len(response.json()) == 5
+
 
 @pytest.mark.asyncio()
 async def test_update_board(async_client):

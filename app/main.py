@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api import boards
-from app.config import database, BaseMeta
+from app.config import BaseMeta, database
 from app.migrations import apply_migrations
 
 app = FastAPI()

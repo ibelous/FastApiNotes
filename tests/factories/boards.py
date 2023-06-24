@@ -10,5 +10,3 @@ class BoardFactory(factory.Factory):
     title = factory.faker.Faker("pystr")
     created_at = factory.faker.Faker("date_time")
     modified_at = factory.faker.Faker("date_time")
-
-

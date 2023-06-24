@@ -5,7 +5,7 @@ import ormar
 from databases import Database
 from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
-from sqlalchemy import MetaData, create_engine
+from sqlalchemy import MetaData
 
 
 class Settings(BaseSettings):

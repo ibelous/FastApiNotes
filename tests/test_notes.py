@@ -1,8 +1,5 @@
 import pytest as pytest
-from fastapi.testclient import TestClient
 
-from app.config import Board
-from app.main import app
 from tests.factories.boards import BoardFactory
 from tests.factories.notes import NoteFactory
 
@@ -17,6 +14,7 @@ async def test_create_note(async_client):
     response = await async_client.post(f"/api/boards/{board.id}/notes/", json=payload)
     assert response.status_code == 201
 
+
 @pytest.mark.asyncio()
 async def test_get_note(async_client):
     board = await BoardFactory().save()
@@ -24,6 +22,7 @@ async def test_get_note(async_client):
     response = await async_client.get(f"/api/boards/{board.id}/notes/{note.id}/")
     assert response.status_code == 200
     assert response.json()["text"] == note.text
+
 
 @pytest.mark.asyncio()
 async def test_get_notes_list(async_client):

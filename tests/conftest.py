@@ -5,9 +5,9 @@ import pytest_asyncio
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 
+from app.config import BaseMeta
 from app.main import app
 from app.migrations import create_database, stamp_database
-from app.config import BaseMeta
 
 
 @pytest_asyncio.fixture()
