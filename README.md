@@ -5,14 +5,6 @@ Start the local environment
 docker-compose up
 ```
 
-Running tests:
-```bash
-docker-compose run --rm django pytest --cov  # runs them in the containerized environment
-# OR
-pytest --cov  # runs them on host machine
-```
-
-
 Quality check:
 Install pre-commit locally to have your code reformatted before pushing it.
 
