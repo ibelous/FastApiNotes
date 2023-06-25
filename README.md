@@ -11,3 +11,9 @@ Install pre-commit locally to have your code reformatted before pushing it.
 
 API Schema:
 ```http://0.0.0.0:8000/docs```
+
+
+Running tests:
+```bash 
+docker-compose run --rm app python -m pytest
+```

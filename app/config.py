@@ -5,7 +5,7 @@ import ormar
 from databases import Database
 from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, func
 
 
 class Settings(BaseSettings):
@@ -35,8 +35,8 @@ class Board(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)
     title: str = ormar.String(max_length=128)
-    created_at = ormar.DateTime(default=datetime.datetime.now())
-    modified_at = ormar.DateTime(default=datetime.datetime.now())
+    created_at: datetime.datetime = ormar.DateTime(server_default=func.now())
+    modified_at: datetime.datetime = ormar.DateTime(server_default=func.now())
 
 
 class Note(ormar.Model):
@@ -45,8 +45,8 @@ class Note(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)
     text: str = ormar.Text()
-    created_at = ormar.DateTime(default=datetime.datetime.now())
-    modified_at = ormar.DateTime(default=datetime.datetime.now())
+    created_at: datetime.datetime = ormar.DateTime(server_default=func.now())
+    modified_at: datetime.datetime = ormar.DateTime(server_default=func.now())
     views_count: int = ormar.Integer(minimum=0, default=0)
     board = ormar.ForeignKey(Board, related_name="notes")
 
@@ -56,3 +56,10 @@ async def before_update(sender, instance, **kwargs):
     if sender == Note and "passed_args" in kwargs and "views_count" in kwargs["passed_args"]:
         return
     instance.modified_at = datetime.datetime.now()
+
+
+@ormar.pre_save([Note, Board])
+async def before_save(sender, instance, **kwargs):
+    now = datetime.datetime.now()
+    instance.created_at = now
+    instance.modified_at = now

@@ -10,6 +10,5 @@ class NoteFactory(factory.Factory):
 
     text = factory.faker.Faker("pystr")
     board = factory.SubFactory(BoardFactory)
-    views_count = factory.faker.Faker("pyint")
     created_at = factory.faker.Faker("date_time")
     modified_at = factory.faker.Faker("date_time")

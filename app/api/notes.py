@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import Response
 
-from app.config import Note
+from app.config import Board, Note
 from app.models.schemas import NoteResponseSchema, NoteSchema, NoteUpdateSchema
 
 router = APIRouter()
@@ -9,6 +9,8 @@ router = APIRouter()
 
 @router.post("/", status_code=201, response_model=Note)
 async def create_note(board_id: int, note: NoteSchema):
+    if not await Board.objects.filter(id=board_id).exists():
+        return Response("Not found.", status_code=404)
     note_dict = note.dict()
     note_dict.update({"board": board_id})
     return await Note(**note_dict).save()
@@ -16,6 +18,8 @@ async def create_note(board_id: int, note: NoteSchema):
 
 @router.get("/", status_code=200, response_model=list[NoteResponseSchema])
 async def list_notes(board_id: int):
+    if not await Board.objects.filter(id=board_id).exists():
+        return Response("Not found.", status_code=404)
     return await Note.objects.filter(board__id=board_id).all()
 
 
