@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from app.api import notes
-from app.config import Board, Note
+from app.config import Board
 from app.models.schemas import BoardSchema
 
 router = APIRouter()
@@ -34,8 +34,8 @@ async def update_board(id: int, board: BoardSchema):
 
 
 @router.delete("/{id}/")
-async def delete_note(id: int):
-    if note := await Note.objects.get_or_none(id=id):
-        await note.delete()
+async def delete_board(id: int):
+    if board := await Board.objects.get_or_none(id=id):
+        await board.delete()
         return Response(status_code=200)
     return Response("Not found.", status_code=404)
